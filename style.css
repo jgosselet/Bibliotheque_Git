@@ -1,0 +1,97 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(fonddessin.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.container {
+    width: 300px;
+    padding: 30px;
+    background-color: #f0f0f0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+    font-family: roboto;
+}
+
+.container h2{
+    font-size: 2vw;
+    font-family: Arial, sans-serif;
+}
+
+.container p{
+    color: red;
+}
+
+/* Styles pour les champs de saisie */
+input[type="email"],
+input[type="password"]
+,input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+/* Bouton de connexion */
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Liens pour "Mot de passe oublié" et "Créez un compte" */
+.forgot-password {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+}
+
+.create-account {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 15px;
+}
+
+.forgot-password a,
+.create-account a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.forgot-password a:hover,
+.create-account a:hover {
+    text-decoration: underline;
+}
