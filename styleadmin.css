@@ -65,7 +65,7 @@ table tbody tr:hover {
     transform: scale(2);
 }
 
-table input[type="text"], table input[type="date"] {
+table input {
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
