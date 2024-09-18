@@ -12,6 +12,9 @@ if (!isset($_SESSION['email'])) {
     <title>Bibliothèque Serrano</title>
     <link rel="stylesheet" href="styleadmin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
 </head>
 <body>
     <a href="accueil_admin.php"><button class="btn_retour">Retour</button></a>
@@ -57,9 +60,16 @@ if (!isset($_SESSION['email'])) {
             if (!validate_password($password)) {
                 echo "<p style='color: red;'>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>";
             }else{
+            // Hachage du mot de passe pour le sécuriser
+            //$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            $salt = '$2y$10$abcdefghijklmnopqrstuv.'; // Exemple de sel pour bcrypt
+
+            // Hacher le mot de passe avec le sel fixe
+            $hashed_password = crypt($password, $salt);
+
             // Préparer et exécuter la requête SQL pour insérer le nouvel utilisateur
             $stmt = $conn->prepare("INSERT INTO utilisateurs (email, mot_de_passe) VALUES (?, ?)");
-            $stmt->bind_param("ss", $email, $password);
+            $stmt->bind_param("ss", $email, $hashed_password);
 
             if ($stmt->execute()) {
                 $_SESSION['message'] = "<p style='color: green;'>Utilisateur ajouté avec succès !</p>";
@@ -134,7 +144,7 @@ if (!isset($_SESSION['email'])) {
 
             echo '<form method="POST" action="" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer cet utilisateur ?\');" style="display:inline-block;">';
             echo '<input type="hidden" name="delete_email" value="' . htmlspecialchars($row["email"]) . '">';
-            echo '<td><button type="submit" name="delete"><img src="poubelle.png" alt="Supprimer"></button></td>';
+            echo '<td><button type="submit" name="delete"><img src="Image/poubelle.png" alt="Supprimer"></button></td>';
             echo '</form>';
             echo '</tr>';
         }

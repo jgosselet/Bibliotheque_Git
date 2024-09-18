@@ -12,6 +12,9 @@ if (!isset($_SESSION['email'])) {
     <title>Bibliothèque Serrano</title>
     <link rel="stylesheet" href="styleadmin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
 </head>
 <body>
     <a href="accueil_admin.php"><button class="btn_retour">Retour</button></a>
@@ -32,114 +35,122 @@ if (!isset($_SESSION['email'])) {
                 <input type="text" id="genre" name="genre" required>
                 <label for="image">Image URL:</label>
                 <input type="text" id="image" name="image">
+                <label for="statut">Statut:</label>
+                <input type="number" id="statut" name="statut" required>
                 <button type="submit">Ajouter</button>
             </form>
         </div>
     </div>
 
     <?php
-    $servername = "localhost";
-    $username = "root";
-    $password_db = "sio2024";
-    $dbname = "bibliotheque";
+$servername = "localhost";
+$username = "root";
+$password_db = "sio2024";
+$dbname = "bibliotheque";
 
-    $conn = new mysqli($servername, $username, $password_db, $dbname);
+$conn = new mysqli($servername, $username, $password_db, $dbname);
 
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("Échec de la connexion: " . $conn->connect_error);
-    }
+// Vérifier la connexion
+if ($conn->connect_error) {
+    die("Échec de la connexion: " . $conn->connect_error);
+}
 
-    if (isset($_SESSION['message'])) {
-        echo $_SESSION['message'];
-        // Supprimer le message de la session après l'avoir affiché
-        unset($_SESSION['message']);
-    }
+// Afficher le message de la session
+if (isset($_SESSION['message'])) {
+    echo $_SESSION['message'];
+    // Supprimer le message de la session après l'avoir affiché
+    unset($_SESSION['message']);
+}
 
+// Traitement de l'ajout de livre
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'add') {
+    $titre = $_POST['titre'];
+    $auteur = $_POST['auteur'];
+    $date_publication = $_POST['date_publication'];
+    $genre = $_POST['genre'];
+    $image = $_POST['image'];
+    $statut = $_POST['statut'];
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['titre'], $_POST['auteur'], $_POST['date_publication'], $_POST['genre'], $_POST['image'])) {
-        $titre = $_POST['titre'];
-        $auteur = $_POST['auteur'];
-        $date_publication = $_POST['date_publication'];
-        $genre = $_POST['genre'];
-        $image = $_POST['image'];
-    
-        // Préparer et exécuter la requête SQL pour insérer le nouveau livre
-        $stmt = $conn->prepare("INSERT INTO livres (titre, auteur, date_publication, genre, image) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $titre, $auteur, $date_publication, $genre, $image);
-    
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "<p style='color: green;'>Livre ajouté avec succès !</p>";
-            // Rediriger vers la même page ou vers une autre page après l'ajout
-            header("Location: gestion_livres.php"); // Assurez-vous que cette URL correspond à votre page
-            exit();
-        } else {
-            $_SESSION['message'] = "<p style='color: red;'>Erreur lors de l'ajout du livre: " . $stmt->error . "</p>";
-        }
-    }
+    // Préparer et exécuter la requête SQL pour insérer le nouveau livre
+    $stmt = $conn->prepare("INSERT INTO livres (titre, auteur, date_publication, genre, image, statut) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $titre, $auteur, $date_publication, $genre, $image, $statut);
 
-    // Si une suppression est demandée
-    if (isset($_POST['delete']) && isset($_POST['delete_id'])) {
-        $delete_id = $_POST['delete_id'];
-
-        // Requête SQL pour supprimer le livre
-        $sql_delete = "DELETE FROM livres WHERE id='$delete_id'";
-
-        if ($conn->query($sql_delete) === TRUE) {
-            $_SESSION['message'] ="<p style='color: green;'>Livre supprimé avec succès !</p>";
-        } else {
-            $_SESSION['message'] ="<p style='color: red;'>Erreur lors de la suppression: " . $conn->error . "</p>";
-        }
-        $conn->close();
-
-        // Rediriger vers la même page
-        header("Location: gestion_livres.php"); // Assurez-vous que cette URL correspond à votre page
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "<p style='color: green;'>Livre ajouté avec succès !</p>";
+        // Rediriger vers la même page ou vers une autre page après l'ajout
+        header("Location: gestion_livres.php");
         exit();
+    } else {
+        $_SESSION['message'] = "<p style='color: red;'>Erreur lors de l'ajout du livre: " . $stmt->error . "</p>";
     }
+}
 
-    // Si le formulaire est soumis, mettre à jour les informations du livre
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['id'], $_POST['titre'], $_POST['auteur'], $_POST['date_publication'], $_POST['genre'], $_POST['image'])) {
+// Traitement de la suppression de livre
+if (isset($_POST['delete']) && isset($_POST['delete_id'])) {
+    $delete_id = $_POST['delete_id'];
+
+    // Requête SQL pour supprimer le livre
+    $sql_delete = "DELETE FROM livres WHERE id='$delete_id'";
+
+    if ($conn->query($sql_delete) === TRUE) {
+        $_SESSION['message'] = "<p style='color: green;'>Livre supprimé avec succès !</p>";
+    } else {
+        $_SESSION['message'] = "<p style='color: red;'>Erreur lors de la suppression: " . $conn->error . "</p>";
+    }
+    $conn->close();
+
+    // Rediriger vers la même page
+    header("Location: gestion_livres.php");
+    exit();
+}
+
+// Traitement de la mise à jour de livre
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'update') {
+    if (isset($_POST['id'], $_POST['titre'], $_POST['auteur'], $_POST['date_publication'], $_POST['genre'], $_POST['image'], $_POST['statut'])) {
         $id = $_POST['id'];
         $titre = $_POST['titre'];
         $auteur = $_POST['auteur'];
         $date_publication = $_POST['date_publication'];
         $genre = $_POST['genre'];
         $image = $_POST['image'];
+        $statut = $_POST['statut'];
 
-        $sql_update = "UPDATE livres SET titre='$titre', auteur='$auteur', date_publication='$date_publication', genre='$genre', image='$image' WHERE id='$id'";
+        // Préparer et exécuter la requête SQL pour mettre à jour le livre
+        $stmt = $conn->prepare("UPDATE livres SET titre=?, auteur=?, date_publication=?, genre=?, image=?, statut=? WHERE id=?");
+        $stmt->bind_param("ssssssi", $titre, $auteur, $date_publication, $genre, $image, $statut, $id);
 
-        if ($conn->query($sql_update) === TRUE) {
-            $_SESSION['message'] = "<p style='color: green; font-size:1vw'>Livre mis à jour avec succès !</p>";
-            header("Location: gestion_livres.php"); // Assurez-vous que cette URL correspond à votre page
+        if ($stmt->execute()) {
+            $_SESSION['message'] = "<p style='color: green;'>Livre mis à jour avec succès !</p>";
+            header("Location: gestion_livres.php");
             exit();
         } else {
-            $_SESSION['message'] = "<p style='color: red; font-size:1vw'>Erreur lors de la mise à jour: " . $conn->error . "</p>";
+            $_SESSION['message'] = "<p style='color: red;'>Erreur lors de la mise à jour: " . $stmt->error . "</p>";
         }
-    } 
     }
+}
 
-    // Récupérer les livres de la table "livres"
-    $sql = "SELECT id, titre, auteur, date_publication, genre, image FROM livres";
-    $result = $conn->query($sql);
+// Récupérer les livres de la table "livres"
+$sql = "SELECT id, titre, auteur, date_publication, genre, image, statut FROM livres";
+$result = $conn->query($sql);
 
-    // Vérifier s'il y a des livres
-    if ($result->num_rows > 0) {
-        echo '<table border="1" cellpadding="10">';
-        echo '<thead>';
-        echo '<tr>';
-        echo '<th>Id</th>';
-        echo '<th>Titre</th>';
-        echo '<th>Auteur</th>';
-        echo '<th>Date de publication</th>';
-        echo '<th>Genre</th>';
-        echo '<th>URL de l\'image</th>';
-        echo '<th>Image</th>';
-        echo '<th>Modifier</th>';
-        echo '<th>Supprimer</th>';
-        echo '</tr>';
-        echo '</thead>';
-        echo '<tbody>';
+// Vérifier s'il y a des livres
+if ($result->num_rows > 0) {
+    echo '<table border="1" cellpadding="10">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th>Id</th>';
+    echo '<th>Titre</th>';
+    echo '<th>Auteur</th>';
+    echo '<th>Date de publication</th>';
+    echo '<th>Genre</th>';
+    echo '<th>URL de l\'image</th>';
+    echo '<th>Statut</th>';
+    echo '<th>Image</th>';
+    echo '<th>Modifier</th>';
+    echo '<th>Supprimer</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
 
     // Afficher chaque livre dans une ligne de tableau
     while ($row = $result->fetch_assoc()) {
@@ -149,18 +160,20 @@ if (!isset($_SESSION['email'])) {
         echo '<td><input type="text" name="id" value="' . htmlspecialchars($row["id"]) . '" readonly></td>';
         echo '<td><input type="text" name="titre" value="' . htmlspecialchars($row["titre"]) . '"></td>';
         echo '<td><input type="text" name="auteur" value="' . htmlspecialchars($row["auteur"]) . '"></td>';
-        echo '<td><input type="date" class="date-input" name="date_publication" value="' . htmlspecialchars($row["date_publication"]) . '"></td>';
+        echo '<td><input type="date" name="date_publication" value="' . htmlspecialchars($row["date_publication"]) . '"></td>';
         echo '<td><input type="text" name="genre" value="' . htmlspecialchars($row["genre"]) . '"></td>';
-        echo '<td><input type="text" name="image" value="' . htmlspecialchars($row["image"]) . '"></td>';  // URL complète dans le champ de texte
+        echo '<td><input type="text" name="image" value="' . htmlspecialchars($row["image"]) . '"></td>';
+        echo '<td><input type="number" name="statut" value="' . htmlspecialchars($row["statut"]) . '"></td>';
         echo '<td><img class="img_livre" src="' . htmlspecialchars($row["image"]) . '" alt="' . htmlspecialchars($row["titre"]) . '"></td>';
+        echo '<input type="hidden" name="action" value="update">';
         echo '<td><input type="submit" value="Modifier"></td>';
         echo '</form>';
         // Formulaire pour supprimer le livre
         echo '<form method="POST" action="" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer ce livre ?\');" style="display:inline-block;">';
         echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($row["id"]) . '">';
-        echo '<td><button type="submit" name="delete"><img src="poubelle.png" alt="Supprimer"></button></td>'; // Icône de poubelle
+        echo '<input type="hidden" name="action" value="delete">';
+        echo '<td><button type="submit" name="delete"><img src="Image/poubelle.png" alt="Supprimer"></button></td>'; // Icône de poubelle
         echo '</form>';
-        echo '</td>';
         echo '</tr>';
     }
 
@@ -172,6 +185,8 @@ if (!isset($_SESSION['email'])) {
 
 $conn->close();
 ?>
+
+
 
 </body>
 </html>

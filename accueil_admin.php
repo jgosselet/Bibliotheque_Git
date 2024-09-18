@@ -22,13 +22,13 @@ if (!isset($_SESSION['email'])) {
     <div class="container-button">
         <a href="gestion_livres.php"><button>Gérer les livres</button></a>
         <a href="gestion_utilisateurs.php"><button>Gérer les utilisateurs</button></a>
-        <a href="gestion_livres.php"><button>Gérer les livres</button></a>
+        <a href="consultation_reservation.php"><button>Consulter les réservations</button></a>
     </div>
 </body>
 </html>
 <style>
     body{
         justify-content: center;
-        background-image: url(fonddessin.jpg);
+        background-image: url(Image/fonddessin.jpg);
     }
 </style>
