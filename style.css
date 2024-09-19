@@ -6,7 +6,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url(fonddessin.jpg);
+    background-image: url(Image/fonddessin.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 

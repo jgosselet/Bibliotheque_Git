@@ -2,9 +2,12 @@
 <head>
     <meta charset="UTF-8" />
     <title>Bibliothèque Serrano</title>
+    <link rel="shortcut icon" href="Image/images.png">
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -29,7 +32,7 @@
                 $password = $_POST['password'];
 
             if (!validate_password($password)) {
-                echo "<p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>";
+                echo "<p>Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>";
             } else {
             // Paramètres de connexion à la base de données
             $servername = "localhost";
@@ -80,7 +83,7 @@
 
         function validate_password($password) {
             // Expression régulière pour valider le mot de passe
-            $pattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/';
+            $pattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{12,}$/';
             return preg_match($pattern, $password);
         }
         ?>
