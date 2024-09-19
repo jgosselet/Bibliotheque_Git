@@ -10,6 +10,7 @@ if (!isset($_SESSION['email'])) {
 <head>
     <meta charset="UTF-8" />
     <title>Bibliothèque Serrano</title>
+    <link rel="shortcut icon" href="Image/images.png">
     <link rel="stylesheet" href="styleadmin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,40 +39,47 @@ if (!isset($_SESSION['email'])) {
         unset($_SESSION['message']);
     }
 
-    // Récupérer les livres de la table "livres"
-    $sql = "SELECT * FROM reservation";
+    // Requête SQL pour joindre les tables "reservation" et "livres"
+    $sql = "
+        SELECT id_reservation, email, titre, date_debut, date_fin
+        FROM reservation 
+        INNER JOIN livres ON id_livres = id
+    ";
     $result = $conn->query($sql);
 
-    // Vérifier s'il y a des livres
+    // Vérifier s'il y a des réservations
     if ($result->num_rows > 0) {
         echo '<table border="1" cellpadding="10">';
         echo '<thead>';
         echo '<tr>';
         echo '<th>Id de réservation</th>';
         echo '<th>Email</th>';
-        echo '<th>Id du livre</th>';
+        echo '<th>Titre du livre</th>';
+        echo '<th>Date de début</th>';
         echo '<th>Date de fin</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
 
-    // Afficher chaque livre dans une ligne de tableau
-    while ($row = $result->fetch_assoc()) {
-        echo '<tr>';
-        echo '<td>' . htmlspecialchars($row["id_reservation"]) . '</td>';
-        echo '<td>' . htmlspecialchars($row["email"]) . '</td>';
-        echo '<td>' . htmlspecialchars($row["id_livres"]) . '</td>';
-        echo '<td>' . htmlspecialchars($row["date_fin"]) . '</td>';
-        echo '</tr>';
+        // Afficher chaque réservation dans une ligne de tableau
+        while ($row = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . htmlspecialchars($row["id_reservation"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["email"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["titre"]) . '</td>';
+            echo '<td>' . htmlspecialchars($row["date_debut"]) . '</td>'; 
+            echo '<td>' . htmlspecialchars($row["date_fin"]) . '</td>';
+            echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+    } else {
+        echo "Aucune réservation trouvée.";
     }
 
-    echo '</tbody>';
-    echo '</table>';
-} else {
-    echo "Aucun livre trouvé.";
-}
-
-$conn->close();
-?>
+    $conn->close();
+    ?>
 
 </body>
+</html>

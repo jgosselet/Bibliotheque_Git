@@ -10,6 +10,7 @@ if (!isset($_SESSION['email'])) {
 <head>
     <meta charset="UTF-8" />
     <title>Bibliothèque Serrano</title>
+    <link rel="shortcut icon" href="Image/images.png">
     <link rel="stylesheet" href="styleadmin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">

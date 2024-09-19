@@ -10,6 +10,7 @@ if (!isset($_SESSION['email'])) {
 <head>
     <meta charset="UTF-8" />
     <title>Bibliothèque Serrano</title>
+    <link rel="shortcut icon" href="Image/images.png">
     <link rel="stylesheet" href="styleadmin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +38,7 @@ if (!isset($_SESSION['email'])) {
                 <input type="text" id="image" name="image">
                 <label for="statut">Statut:</label>
                 <input type="number" id="statut" name="statut" required>
-                <button type="submit">Ajouter</button>
+                <button type="submit" name="add_user">Ajouter</button>
             </form>
         </div>
     </div>
@@ -63,7 +64,7 @@ if (isset($_SESSION['message'])) {
 }
 
 // Traitement de l'ajout de livre
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'add') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
     $titre = $_POST['titre'];
     $auteur = $_POST['auteur'];
     $date_publication = $_POST['date_publication'];

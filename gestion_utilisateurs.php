@@ -10,6 +10,7 @@ if (!isset($_SESSION['email'])) {
 <head>
     <meta charset="UTF-8" />
     <title>Bibliothèque Serrano</title>
+    <link rel="shortcut icon" href="Image/images.png">
     <link rel="stylesheet" href="styleadmin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,7 +59,7 @@ if (!isset($_SESSION['email'])) {
             $password = $_POST['password'];
 
             if (!validate_password($password)) {
-                echo "<p style='color: red;'>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>";
+                echo "<p style='color: red;'>Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.</p>";
             }else{
             // Hachage du mot de passe pour le sécuriser
             //$hashed_password = password_hash($password, PASSWORD_BCRYPT);
@@ -159,7 +160,7 @@ if (!isset($_SESSION['email'])) {
 
     function validate_password($password) {
         // Expression régulière pour valider le mot de passe
-        $pattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/';
+        $pattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{12,}$/';
         return preg_match($pattern, $password);
     }
     ?>
