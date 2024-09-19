@@ -1,0 +1,218 @@
+body {
+    background: linear-gradient(to bottom, #fac175, #d6a265); 
+    background-size: cover; 
+    margin: 0; 
+    padding: 0; 
+    min-height: 100vh;
+    display: table;
+    width: 100%;
+    font-family: "Sofia", sans-serif;
+ 
+}
+
+.tete {
+    display: flex;
+    align-items: center;
+    font-family: "Sofia", sans-serif;
+    font-size: 25px;
+    height: 125px;
+    color: white;
+    background-color: black;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    position: sticky;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    overflow:hidden;
+}
+
+.auchon {
+    width: 200px;
+    height: auto;
+    margin-left: 10px;
+}
+
+
+
+button {
+    font-family: monospace;
+    font-size: 15px;
+    color: #FAFAFA;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #FAFAFA;
+    background: #252525;
+    box-shadow: 3px 3px #fafafa;
+    cursor: pointer;
+    margin-left: 100px;
+    width: 120px;
+    height: 50px;
+
+}
+
+button:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
+.btn_deconnexion{
+    position: absolute;
+    right:25px;
+    bottom: 35px;
+}
+
+h2 {
+    font-size: 30px;
+    text-align: center;
+}
+
+h3 {
+    font-weight: bolder;
+    font-size: 25px;
+    font-family: "Copperplate", fantasy;
+    text-align: center;
+}
+
+#aucun_resultat {
+    font-family: "Copperplate", fantasy;
+    margin-left: 47rem;
+    font-weight: bolder;
+    font-size: 2px;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-left:4.5%;
+    margin-top: 20px; 
+    margin-bottom: 2%;
+}
+
+.product {
+    width: 312px; 
+    padding: 10px;
+    font-family: Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
+    font-weight: bold;
+    background: linear-gradient(to top, #683a06, #f7b060);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.product-image {
+    width: 170px;
+    height: 190px;
+    border-radius: 5px;
+    margin-bottom: 10px; 
+    transition: transform 0.5s ease;
+}
+
+.product-info {
+    text-align: center;
+}
+
+.product:hover {
+    transform: scale(1.07);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+}
+
+input[type="number"]{
+    background-color:#d6a265;
+    color: white;
+    border: 1px solid black;
+}
+
+.reserve-btn {
+    font-family: monospace;
+    font-size: 15px;
+    color: black;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #fac175;
+    background: #d6a265;
+    box-shadow: 3px 3px #fac175;
+    cursor: pointer;
+    margin-left: 100px;
+    width: 120px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+.reserve-btn:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
+form {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around; 
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+select, input[type="text"] {
+    width: 150px;
+    height:50px;
+    padding: 10px;
+    border: 1px solid white;
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: "Sofia", sans-serif; 
+    transition: border-color 0.3s ease;
+}
+
+select:focus, input[type="text"]:focus {
+    border-color: #fac175; 
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.pagination a {
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #fac175;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #e0a15c;
+    text-decoration: underline;
+}
+
+.pagination .active {
+    font-weight: bold;
+    background-color: #e0a15c;
+    color: white;
+}
+
+footer {
+    background-color: black;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    font-family: Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); 
+}
