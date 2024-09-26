@@ -1,9 +1,9 @@
 <?php
 session_start();
-$host = 'localhost'; // Changez si nécessaire
+$host = 'localhost'; 
 $dbname = 'bibliotheque';
-$username = 'root';  // Changez si nécessaire
-$password = 'sio2024'; // Changez si nécessaire
+$username = 'root';  
+$password = 'sio2024'; 
 
 date_default_timezone_set('Europe/Paris');
 
@@ -11,7 +11,8 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo 'Connexion échouée : ' . $e->getMessage();
+    echo '<script>alert("Connexion échouée : ' . $e->getMessage() . '");</script>';
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $queryEmail->fetch();
     
     if (!$user) {
-        die('L\'email fourni ne correspond à aucun utilisateur enregistré.');
+        echo '<script>alert("L\'email fourni ne correspond à aucun utilisateur enregistré."); window.location.href="bibliotheque.php";</script>';
+        exit();
     }
     
     // Vérifier si le livre est disponible (statut == 0)
@@ -53,12 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $insertQuery->bindParam(':date_fin', $date_fin);
         $insertQuery->execute();
         
-        // Redirection ou message de succès
-        echo 'Le livre a été réservé avec succès jusqu\'à ' . $date_fin;
+        // Afficher une pop-up de succès et redirection vers bibliotheque.php
+        echo '<script>alert("Le livre a été réservé avec succès jusqu\'à ' . $date_fin . '"); window.location.href="bibliotheque.php";</script>';
     } else {
-        echo 'Ce livre n\'est plus disponible.';
+        // Afficher une pop-up si le livre n'est pas disponible, et redirection vers bibliotheque.php
+        echo '<script>alert("Ce livre n\'est plus disponible."); window.location.href="bibliotheque.php";</script>';
     }
 } else {
-    echo 'Méthode non autorisée.';
+    echo '<script>alert("Méthode non autorisée."); window.location.href="bibliotheque.php";</script>';
 }
 ?>
