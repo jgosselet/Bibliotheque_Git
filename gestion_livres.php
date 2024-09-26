@@ -24,7 +24,7 @@ if (!isset($_SESSION['email'])) {
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Ajouter un Nouveau Livre</h2>
+            <h2>Ajouter un nouveau Llvre</h2>
             <form id="addBookForm" method="POST">
                 <label for="titre">Titre:</label>
                 <input type="text" id="titre" name="titre" required>
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
 
     // Préparer et exécuter la requête SQL pour insérer le nouveau livre
     $stmt = $conn->prepare("INSERT INTO livres (titre, auteur, date_publication, genre, image, statut) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $titre, $auteur, $date_publication, $genre, $image, $statut);
+    $stmt->bind_param("sssssi", $titre, $auteur, $date_publication, $genre, $image, $statut);
 
     if ($stmt->execute()) {
         $_SESSION['message'] = "<p style='color: green;'>Livre ajouté avec succès !</p>";
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         // Préparer et exécuter la requête SQL pour mettre à jour le livre
         $stmt = $conn->prepare("UPDATE livres SET titre=?, auteur=?, date_publication=?, genre=?, image=?, statut=? WHERE id=?");
-        $stmt->bind_param("ssssssi", $titre, $auteur, $date_publication, $genre, $image, $statut, $id);
+        $stmt->bind_param("sssssii", $titre, $auteur, $date_publication, $genre, $image, $statut, $id);
 
         if ($stmt->execute()) {
             $_SESSION['message'] = "<p style='color: green;'>Livre mis à jour avec succès !</p>";
@@ -186,15 +186,14 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
-
-
-
 </body>
 </html>
 <style>
     body{
         background-color: white;
         padding-bottom: 50px;
+        background-image: url("Image/fond.jpg");
+
     }
 </style>
 <script>
@@ -208,7 +207,7 @@ $conn->close();
         modal.style.display = "block";
     }
 
-    // Fermer le modal lorsque l'utilisateur clique sur <span> (x)
+    // Fermer le modal lorsque l'utilisateur clique sur <span> 
     span.onclick = function() {
         modal.style.display = "none";
     }

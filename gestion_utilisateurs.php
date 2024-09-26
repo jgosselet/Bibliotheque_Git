@@ -24,7 +24,7 @@ if (!isset($_SESSION['email'])) {
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Ajouter un Nouvel Utilisateur</h2>
+            <h2>Ajouter un nouvel utilisateur</h2>
             <form id="addUserForm" method="POST">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
@@ -159,7 +159,7 @@ if (!isset($_SESSION['email'])) {
     $conn->close();
 
     function validate_password($password) {
-        // Expression régulière pour valider le mot de passe
+        // Valider le mot de passe
         $pattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{12,}$/';
         return preg_match($pattern, $password);
     }
@@ -183,7 +183,7 @@ if (!isset($_SESSION['email'])) {
         modal.style.display = "block";
     }
 
-    // Fermer le modal lorsque l'utilisateur clique sur <span> (x)
+    // Fermer le modal lorsque l'utilisateur clique sur <span> 
     span.onclick = function() {
         modal.style.display = "none";
     }
@@ -197,3 +197,8 @@ if (!isset($_SESSION['email'])) {
 });
 
 </script>
+<style>
+    body{
+        background-image: url("Image/fond.jpg");
+    }
+</style>

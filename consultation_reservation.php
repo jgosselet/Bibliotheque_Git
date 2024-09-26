@@ -83,3 +83,8 @@ if (!isset($_SESSION['email'])) {
 
 </body>
 </html>
+<style>
+    body{
+        background-image: url("Image/fond.jpg");
+    }
+</style>
