@@ -60,7 +60,14 @@ button:active {
 .btn_deconnexion{
     position: absolute;
     right:25px;
-    bottom: 35px;
+    bottom: 25px;
+}
+
+.btn_consultation{
+    position: absolute;
+    right:225px;
+    bottom: 25px;
+    width: auto;
 }
 
 h2 {

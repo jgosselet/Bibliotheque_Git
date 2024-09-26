@@ -6,10 +6,10 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-$host = 'localhost'; // Changez si nécessaire
+$host = 'localhost'; 
 $dbname = 'bibliotheque';
-$username = 'root';  // Changez si nécessaire
-$password = 'sio2024';      // Changez si nécessaire
+$username = 'root';  
+$password = 'sio2024';   
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -77,10 +77,6 @@ $date_publications = getDistinctValues($pdo, 'date_publication');
     <link rel="stylesheet" type="text/css" href="style_bibliotheque.css" />
     <link rel="shortcut icon" href="Image/images.png">
     <title>Bibliothèque Serrano - Livres</title>
-    <style>
-        .livre { margin-bottom: 20px; }
-        .livre img { max-width: 150px; height: auto; }
-    </style>
 </head>
 <body>
     <div class="tete">
@@ -119,6 +115,7 @@ $date_publications = getDistinctValues($pdo, 'date_publication');
         <button type="submit">Filtrer</button>
     </form>
     <a href="logout.php"><button class="btn_deconnexion">Déconnexion</button></a>
+    <a href="consultation_reservation_utilisateur.php"><button class="btn_consultation">Consulter vos réservations</button></a>
     </div>
     <div class="product-grid">
     <?php if ($livres): ?>
@@ -134,7 +131,6 @@ $date_publications = getDistinctValues($pdo, 'date_publication');
                     </div>
                     
                     <?php if ($livre['statut'] == 0): ?>
-                        <!-- Formulaire de réservation -->
                         <form action="reserver.php" method="POST">
                             <input type="hidden" name="id_livre" value="<?php echo $livre['id']; ?>">
                             <label for="duree">Durée de la réservation (en jours, max 7) :</label>
@@ -169,7 +165,7 @@ try {
     // Obtenir la date et l'heure actuelles
     $currentDate = date('Y-m-d H:i:s');
 
-    // Sélectionner les réservations expirées
+    // Sélectionner les livres dont la réservation est expirée
     $query = $pdo->prepare('
         SELECT id_livres FROM reservation WHERE date_fin <= :currentDate
     ');
@@ -177,15 +173,28 @@ try {
     $query->execute();
     $livres_expired = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    // Si des réservations sont expirées, réinitialiser les statuts des livres
+    // Si des réservations sont expirées, vérifier s'il y a encore d'autres réservations pour ces livres
     if ($livres_expired) {
         foreach ($livres_expired as $livre) {
-            // Mettre à jour le statut des livres à 0 (disponible)
-            $updateQuery = $pdo->prepare('UPDATE livres SET statut = 0 WHERE id = :id_livres');
-            $updateQuery->bindParam(':id_livres', $livre['id_livres']);
-            $updateQuery->execute();
+            $id_livres = $livre['id_livres'];
+
+            // Vérifier s'il existe encore des réservations actives pour ce livre
+            $checkQuery = $pdo->prepare('
+                SELECT COUNT(*) as count FROM reservation WHERE id_livres = :id_livres AND date_fin > :currentDate
+            ');
+            $checkQuery->bindParam(':id_livres', $id_livres);
+            $checkQuery->bindParam(':currentDate', $currentDate);
+            $checkQuery->execute();
+            $reservation_active = $checkQuery->fetch(PDO::FETCH_ASSOC);
+
+            // Si aucune autre réservation n'existe pour ce livre, changer le statut à 0 (disponible)
+            if ($reservation_active['count'] == 0) {
+                $updateQuery = $pdo->prepare('UPDATE livres SET statut = 0 WHERE id = :id_livres');
+                $updateQuery->bindParam(':id_livres', $id_livres);
+                $updateQuery->execute();
+            }
         }
-        echo 'Les statuts des livres expirés ont été mis à jour avec succès.';
+        echo 'Les statuts des livres sans réservation active ont été mis à jour avec succès.';
     } else {
         echo 'Aucune réservation expirée trouvée à ce moment.';
     }
@@ -195,6 +204,7 @@ try {
     echo 'Erreur de connexion ou de requête : ' . $e->getMessage();
 }
 ?>
+
 
 </body>
 <br>
