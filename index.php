@@ -1,5 +1,5 @@
 <!--Administrateur123!
-Nonomescouilles1!-->
+Nonoutilisateur1!-->
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -24,9 +24,6 @@ Nonomescouilles1!-->
             </div>
             <button type="submit">Se connecter</button>
         </form>
-        <!--<div class="forgot-password">
-            <a href="#">Mot de passe oublié ?</a>
-        </div>-->
         <div class="create-account">
             <a href="inscription.php">Créez un compte</a>
         </div>
@@ -38,7 +35,7 @@ Nonomescouilles1!-->
                 $servername = "localhost";
                 $username = "root";
                 $password_db = "sio2024";
-                $dbname = "bibliotheque"; // Remplacez par le nom de votre base de données
+                $dbname = "bibliotheque"; 
 
                 // Connexion à la base de données
                 $conn = new mysqli($servername, $username, $password_db, $dbname);
@@ -81,7 +78,7 @@ Nonomescouilles1!-->
                                 // Rediriger l'utilisateur non admin vers la bibliothèque
                                 header("Location: bibliotheque.php");
                             }
-                            exit(); // Terminer le script ici
+                            exit(); 
                         } else {
                             // Mot de passe incorrect
                             $error_message = "Mot de passe incorrect.";
@@ -103,7 +100,7 @@ Nonomescouilles1!-->
                 
     
 
-        // Affichage des messages d'erreur, le cas échéant
+        // Affichage des messages d'erreur
         if (isset($error_message)) {
             echo "<p>$error_message</p>";
         }
@@ -135,7 +132,7 @@ function preventBack() {
     window.history.forward(); 
 }
 
-// Appel la fonction lorsqu'on essaie d'aller en arrière
+// Appel de la fonction lorsqu'on essaie d'aller en arrière
 setTimeout("preventBack()", 0);
 
 // Intercepter les actions de retour en arrière du navigateur

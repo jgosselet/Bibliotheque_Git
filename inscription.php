@@ -38,7 +38,7 @@
             $servername = "localhost";
             $username = "root";
             $password_db = "sio2024";
-            $dbname = "bibliotheque"; // Remplacez par le nom de votre base de données
+            $dbname = "bibliotheque"; 
 
             // Connexion à la base de données
             $conn = new mysqli($servername, $username, $password_db, $dbname);
@@ -49,8 +49,7 @@
             }
 
                 // Hachage du mot de passe pour le sécuriser
-                //$hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                $salt = '$2y$10$abcdefghijklmnopqrstuv.'; // Exemple de sel pour bcrypt
+                $salt = '$2y$10$abcdefghijklmnopqrstuv.'; 
 
                 // Hacher le mot de passe avec le sel fixe
                 $hashed_password = crypt($password, $salt);
@@ -82,7 +81,7 @@
     }
 
         function validate_password($password) {
-            // Expression régulière pour valider le mot de passe
+            // Valider le mot de passe
             $pattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{12,}$/';
             return preg_match($pattern, $password);
         }
